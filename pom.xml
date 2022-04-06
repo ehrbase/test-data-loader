@@ -16,13 +16,13 @@
     </parent>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <!-- Database Properties -->
-        <db.url>jdbc:postgresql://localhost:5432/ehrbase</db.url>
+        <db.url>jdbc:yugabytedb://10.216.24.69:5433/ehrbase?load-balance=true</db.url>
         <db.username>ehrbase</db.username>
         <db.password>ehrbase</db.password>
-        <db.driver>org.postgresql.Driver</db.driver>
+        <db.driver>com.yugabyte.Driver</db.driver>
         <!-- Dependencies -->
         <archie.version>2.0.1</archie.version>
         <ehrbase-sdk.version>1.19.0-SNAPSHOT</ehrbase-sdk.version>
@@ -33,6 +33,7 @@
             <plugin>
                 <groupId>org.jooq</groupId>
                 <artifactId>jooq-codegen-maven</artifactId>
+                <version>3.16.5</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
@@ -86,10 +87,13 @@
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq</artifactId>
+            <version>3.16.5</version>
         </dependency>
+
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
+            <groupId>com.yugabyte</groupId>
+            <artifactId>jdbc-yugabytedb</artifactId>
+            <version>42.3.4</version>
         </dependency>
         <dependency>
             <groupId>com.nedap.healthcare.archie</groupId>

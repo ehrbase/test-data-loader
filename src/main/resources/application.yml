@@ -3,9 +3,10 @@ loader:
   composition-per-ehr: 200
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/ehrbase
+    url: jdbc:yugabytedb://10.216.24.69:5433/ehrbase?load-balance=true
     username: ehrbase
     password: ehrbase
+    driver-class-name: com.yugabyte.Driver
     hikari:
       maximum-pool-size: 20
   main:
