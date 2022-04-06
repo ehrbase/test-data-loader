@@ -1,5 +1,7 @@
 # Test Data Loader
 
+Simple Spring Boot application that populates EHRbase database with test data. 
+
 ## Getting started
 
 ### Build the application
