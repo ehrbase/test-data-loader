@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.ehrbase.testdata</groupId>
+    <artifactId>loader</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.6.5</version>
+    </parent>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <!-- Database Properties -->
+        <db.url>jdbc:postgresql://localhost:5432/ehrbase</db.url>
+        <db.username>ehrbase</db.username>
+        <db.password>ehrbase</db.password>
+        <db.driver>org.postgresql.Driver</db.driver>
+        <!-- Dependencies -->
+        <archie.version>2.0.1</archie.version>
+        <ehrbase-sdk.version>1.19.0-SNAPSHOT</ehrbase-sdk.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-codegen-maven</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <jdbc>
+                                <url>${db.url}</url>
+                                <user>${db.username}</user>
+                                <password>${db.password}</password>
+                                <driver>${db.driver}</driver>
+                            </jdbc>
+                            <generator>
+                                <database>
+                                    <name>org.jooq.meta.postgres.PostgresDatabase</name>
+                                    <inputSchema>ehr</inputSchema>
+                                    <forcedTypes>
+                                        <forcedType>
+                                            <userType>
+                                                java.util.AbstractMap.SimpleEntry&lt;java.time.OffsetDateTime,
+                                                java.time.OffsetDateTime>
+                                            </userType>
+                                            <binding>org.ehrbase.testdata.loader.jooq.binding.SysPeriodBinder</binding>
+                                            <includeExpression>sys_period</includeExpression>
+                                            <includeTypes>.*</includeTypes>
+                                        </forcedType>
+                                    </forcedTypes>
+                                </database>
+                                <target>
+                                    <packageName>org.ehrbase.testdata.loader.jooq</packageName>
+                                    <directory>${project.build.directory}/generated-sources/jooq</directory>
+                                </target>
+                            </generator>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.nedap.healthcare.archie</groupId>
+            <artifactId>archie-utils</artifactId>
+            <version>${archie.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.ehrbase.openehr.sdk</groupId>
+            <artifactId>serialisation</artifactId>
+            <version>${ehrbase-sdk.version}</version>
+        </dependency>
+    </dependencies>
+</project>

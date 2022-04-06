@@ -1,0 +1,16 @@
+loader:
+  ehr: 100
+  composition-per-ehr: 200
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ehrbase
+    username: ehrbase
+    password: ehrbase
+    hikari:
+      maximum-pool-size: 20
+  main:
+    web-application-type: none
+logging:
+  level:
+    com.zaxxer.hikari: warn
+    org.jooq: warn
