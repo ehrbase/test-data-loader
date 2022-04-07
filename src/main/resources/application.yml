@@ -3,9 +3,10 @@ loader:
   composition-per-ehr: 200
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/ehrbase
-    username: ehrbase
-    password: ehrbase
+    url: @db.url@
+    username: @db.username@
+    password: @db.password@
+    driver-class-name: @db.driver@
     hikari:
       maximum-pool-size: 20
   main:

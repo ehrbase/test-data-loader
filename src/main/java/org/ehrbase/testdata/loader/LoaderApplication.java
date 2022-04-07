@@ -302,8 +302,8 @@ public class LoaderApplication implements CommandLineRunner {
     private UUID createPartyIdentified(PartyProxy composer) {
         var partyIdentifiedRecord = dsl.newRecord(PARTY_IDENTIFIED);
 
-        if (composer instanceof PartyIdentified partyIdentified) {
-            partyIdentifiedRecord.setName(partyIdentified.getName());
+        if (composer instanceof PartyIdentified) {
+            partyIdentifiedRecord.setName(((PartyIdentified) composer).getName());
             partyIdentifiedRecord.setPartyType(PartyType.party_identified);
             partyIdentifiedRecord.setObjectIdType(PartyRefIdType.undefined);
             partyIdentifiedRecord.store();
@@ -450,8 +450,8 @@ public class LoaderApplication implements CommandLineRunner {
         dvCodedTextRecord.setEncoding(createCodePhrase(dvText.getEncoding()));
         dvCodedTextRecord.setTermMapping(createTermMappings(dvText.getMappings()));
 
-        if (dvText instanceof DvCodedText dvCodedText) {
-            dvCodedTextRecord.setDefiningCode(createCodePhrase(dvCodedText.getDefiningCode()));
+        if (dvText instanceof DvCodedText) {
+            dvCodedTextRecord.setDefiningCode(createCodePhrase(((DvCodedText) dvText).getDefiningCode()));
         }
 
         return dvCodedTextRecord;
@@ -484,7 +484,7 @@ public class LoaderApplication implements CommandLineRunner {
 
                     return result;
                 })
-                .toList().toArray(new String[0]);
+                .toArray(String[]::new);
     }
 
     private Integer getTerritory(String code) {
@@ -515,10 +515,10 @@ public class LoaderApplication implements CommandLineRunner {
             return null;
         }
 
-        if (temporal instanceof ZonedDateTime zonedDateTime) {
-            return zonedDateTime.getZone().toString();
-        } else if (temporal instanceof OffsetDateTime offsetDateTime) {
-            return offsetDateTime.getOffset().toString();
+        if (temporal instanceof ZonedDateTime) {
+            return ((ZonedDateTime) temporal).getZone().toString();
+        } else if (temporal instanceof OffsetDateTime) {
+            return ((OffsetDateTime) temporal).getOffset().toString();
         } else {
             return zoneId;
         }
