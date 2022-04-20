@@ -9,6 +9,8 @@ spring:
     driver-class-name: @db.driver@
     hikari:
       maximum-pool-size: 20
+  jooq:
+    sql-dialect: @jooq.sql-dialect@
   main:
     web-application-type: none
 logging:

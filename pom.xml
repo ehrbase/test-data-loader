@@ -19,6 +19,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <archie.version>2.0.1</archie.version>
+        <jooq.version>3.16.5</jooq.version>
         <ehrbase-sdk.version>1.19.0-SNAPSHOT</ehrbase-sdk.version>
         <yugabytedb.version>42.3.4</yugabytedb.version>
     </properties>
@@ -34,6 +35,8 @@
                 <db.username>ehrbase</db.username>
                 <db.password>ehrbase</db.password>
                 <db.driver>org.postgresql.Driver</db.driver>
+                <jooq.database-name>org.jooq.meta.postgres.PostgresDatabase</jooq.database-name>
+                <jooq.sql-dialect>postgres</jooq.sql-dialect>
             </properties>
             <dependencies>
                 <dependency>
@@ -49,6 +52,8 @@
                 <db.username>ehrbase</db.username>
                 <db.password>ehrbase</db.password>
                 <db.driver>com.yugabyte.Driver</db.driver>
+                <jooq.database-name>org.jooq.meta.yugabytedb.YugabyteDBDatabase</jooq.database-name>
+                <jooq.sql-dialect>yugabytedb</jooq.sql-dialect>
             </properties>
             <dependencies>
                 <dependency>
@@ -80,7 +85,7 @@
                             </jdbc>
                             <generator>
                                 <database>
-                                    <name>org.jooq.meta.postgres.PostgresDatabase</name>
+                                    <name>${jooq.database-name}</name>
                                     <inputSchema>ehr</inputSchema>
                                     <forcedTypes>
                                         <forcedType>
@@ -118,6 +123,10 @@
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq-meta</artifactId>
         </dependency>
         <dependency>
             <groupId>com.nedap.healthcare.archie</groupId>
